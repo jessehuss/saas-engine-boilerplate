@@ -1,9 +1,5 @@
 import type { APIRoute } from 'astro';
 import { sendEmail } from '../../lib/sendEmail';
-import dotenv from 'dotenv';
-
-// Load .env file
-dotenv.config();
 
 export const prerender = false; // Enable SSR for this route
 

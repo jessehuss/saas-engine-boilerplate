@@ -1,12 +1,16 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import cloudflare from '@astrojs/cloudflare';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
+// Hybrid site configuration (static pages + server endpoints)
 export default defineConfig({
+  output: 'hybrid',
+  adapter: cloudflare(),
   integrations: [
     tailwind(),
   ],
@@ -14,7 +18,6 @@ export default defineConfig({
     port: 4321,
     host: true,
   },
-  output: 'static',
   vite: {
     resolve: {
       alias: {
