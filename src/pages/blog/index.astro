@@ -8,7 +8,6 @@ const BaseLayout = await loadLayout('BaseLayout');
 const posts = await getCollection('blog');
 const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const primaryColor = siteConfig.primaryColor;
-const template = siteConfig.template;
 ---
 
 <BaseLayout siteConfig={siteConfig} title="Blog" description="Read our latest news and insights">

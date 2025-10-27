@@ -37,7 +37,7 @@ const primaryColor = siteConfig.primaryColor;
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {posts.map((post, index) => {
+          {posts.map((post) => {
             const cardClasses = siteConfig.template === 'playful' 
               ? 'bg-white rounded-3xl shadow-2xl hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-110 hover:rotate-2 group-hover:rotate-2' 
               : siteConfig.template === 'dark'

@@ -4,10 +4,6 @@ import { loadLayout } from '../../lib/templateLoader';
 import siteConfig from '../../config/site.config';
 import { formatDate } from '../../lib/utils';
 
-interface Props {
-  entry: ReturnType<typeof getCollection<'blog'>>[0];
-}
-
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
@@ -45,7 +41,7 @@ const template = siteConfig.template;
           <span>By {entry.data.author}</span>
           {entry.data.tags && entry.data.tags.length > 0 && (
             <div class="flex gap-2">
-              {entry.data.tags.map((tag) => (
+              {entry.data.tags.map((tag: string) => (
                 <span class={`px-4 py-2 rounded-full text-sm font-medium ${
                   template === 'dark' 
                     ? 'bg-slate-800 text-slate-300 border border-slate-700' 
@@ -75,4 +71,3 @@ const template = siteConfig.template;
     </div>
   </article>
 </BaseLayout>
-
