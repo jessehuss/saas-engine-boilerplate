@@ -187,32 +187,72 @@ These are injected as CSS variables at build time.
 
 ## Deployment
 
-### Cloudflare Pages
+> **Detailed Deployment Guide**: See [DEPLOYMENT.md](./DEPLOYMENT.md) for step-by-step instructions.
 
-1. **Push to GitHub**:
+### Cloudflare Pages (GitHub Actions)
+
+The project includes automatic deployment to Cloudflare Pages via GitHub Actions.
+
+#### Setup Instructions
+
+1. **Get Cloudflare Credentials**:
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+   - Navigate to "My Profile" → "API Tokens"
+   - Create a new token with these permissions:
+     - `Cloudflare Pages:Edit`
+     - Read access to your account
+
+2. **Add GitHub Secrets**:
+   - Go to your GitHub repository
+   - Navigate to Settings → Secrets and variables → Actions
+   - Add the following secrets:
+     - `CLOUDFLARE_API_TOKEN`: Your Cloudflare API token
+     - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare Account ID (found in dashboard)
+     - `CLOUDFLARE_PROJECT_NAME`: Your Cloudflare Pages project name
+
+3. **Push to GitHub**:
    ```bash
    git add .
    git commit -m "Initial commit"
    git push origin main
    ```
 
-2. **Connect to Cloudflare**:
-   - Go to Cloudflare Dashboard
-   - Navigate to Pages
+4. **Monitor Deployment**:
+   - Check the "Actions" tab in your GitHub repository
+   - The workflow will automatically build and deploy on push to main
+   - View deployment status in Cloudflare Dashboard
+
+5. **Add Environment Variables**:
+   - In Cloudflare Dashboard → Pages → Your Project → Settings
+   - Add all variables from `.env`:
+     - `RESEND_API_KEY`
+     - `FROM_EMAIL`
+     - `TO_EMAIL`
+     - Any other required variables
+
+6. **Custom Domain** (optional):
+   - In Cloudflare Pages settings, add custom domain
+   - Update DNS records as instructed
+
+### Alternative: Direct Cloudflare Pages Integration
+
+You can also use Cloudflare Pages' native Git integration:
+
+1. **Connect to Cloudflare**:
+   - Go to Cloudflare Dashboard → Pages
    - Create new project from Git
    - Connect your GitHub repository
 
-3. **Configure Build Settings**:
+2. **Configure Build Settings**:
    - Build command: `npm run build`
    - Build output: `dist`
    - Node version: 18
 
-4. **Add Environment Variables**:
+3. **Add Environment Variables**:
    - Go to project settings
    - Add all variables from `.env`
-   - Save and redeploy
 
-5. **Custom Domain** (optional):
+4. **Custom Domain** (optional):
    - In Pages settings, add custom domain
    - Update DNS records as instructed
 

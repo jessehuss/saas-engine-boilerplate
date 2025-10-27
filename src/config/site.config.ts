@@ -45,7 +45,7 @@ const siteConfig: SiteConfig = {
   contactEmail: "info@acmelandscaping.ca",
   domain: "acmelandscaping.ca",
   showBlog: true,
-  template: "modern",
+  template: "gradient",
   nav: [
     { label: "Home", href: "/" },
     { label: "Services", href: "/#services" },
