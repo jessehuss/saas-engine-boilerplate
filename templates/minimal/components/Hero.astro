@@ -1,0 +1,32 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaLink: string;
+}
+
+const { headline, subheadline, ctaText, ctaLink } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+---
+
+<section class="py-24 md:py-32">
+  <div class="container-custom">
+    <div class="max-w-3xl space-y-8">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+        {headline}
+      </h1>
+      <p class="text-xl text-gray-600 leading-relaxed">
+        {subheadline}
+      </p>
+      <div class="pt-4">
+        <a href={ctaLink} class="inline-flex items-center justify-center px-6 py-3 rounded-md font-medium text-white shadow-lg hover:opacity-90 transition-all bg-gray-900" style={`background-color: ${primaryColor};`}>
+          {ctaText}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

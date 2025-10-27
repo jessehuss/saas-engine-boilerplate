@@ -1,0 +1,9 @@
+/* Base template styles */
+
+:root {
+  --primary-color: #3B82F6;
+  --secondary-color: #6366F1;
+  --accent-color: #8B5CF6;
+  --neutral-color: #6B7280;
+}
+

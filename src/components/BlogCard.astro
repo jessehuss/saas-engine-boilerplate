@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/utils';
+import siteConfig from '../config/site.config';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { slug, data } = post;
+const primaryColor = siteConfig.primaryColor;
+const template = siteConfig.template;
+---
+
+<article class={`overflow-hidden group transition-all duration-300 ${
+  template === 'playful' 
+    ? 'bg-white rounded-3xl shadow-2xl hover:shadow-2xl hover:scale-110 hover:rotate-2' 
+    : template === 'dark'
+    ? 'bg-slate-800 border border-slate-700 rounded-2xl hover:border-primary/50'
+    : template === 'gradient'
+    ? 'bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl hover:scale-105 border border-white/50'
+    : 'bg-white rounded-2xl shadow-lg hover:shadow-2xl group-hover:scale-105'
+}`}>
+  <a href={`/blog/${slug}`} class="block">
+    {data.image && (
+      <div class={`aspect-video overflow-hidden ${
+        template === 'dark' ? 'bg-slate-700' : 'bg-gray-100'
+      }`}>
+        <img 
+          src={data.image} 
+          alt={data.title} 
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+        />
+      </div>
+    )}
+    
+    <div class="p-8">
+      <time class={`text-sm ${
+        template === 'dark' ? 'text-slate-500' : 'text-gray-500'
+      }`} datetime={data.date.toISOString()}>
+        {formatDate(data.date)}
+      </time>
+      
+      <h2 class={`text-2xl font-bold mt-2 mb-3 transition-colors ${template === 'playful' ? '' : 'group-hover:underline'}`} style={`color: ${primaryColor};`}>
+        {data.title}
+      </h2>
+      
+      {data.description && (
+        <p class={`line-clamp-3 ${
+          template === 'dark' ? 'text-slate-400' : 'text-gray-600'
+        }`}>
+          {data.description}
+        </p>
+      )}
+      
+      <div class="mt-4 font-medium" style={`color: ${primaryColor};`}>
+        Read more →
+      </div>
+    </div>
+  </a>
+</article>
+

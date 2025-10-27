@@ -1,0 +1,114 @@
+backend:
+  name: github
+  repo: your-username/your-repo
+  branch: main
+  auth_type: oauth
+  app_id: your-github-app-id
+  api_root: https://api.github.com
+  # Alternative: Git Gateway (Netlify Identity)
+  # name: git-gateway
+  # branch: main
+
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        required: true
+      - label: Date
+        name: date
+        widget: date
+        required: true
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Author
+        name: author
+        widget: string
+        default: "Admin"
+      - label: Featured Image
+        name: image
+        widget: image
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        default: []
+      - label: Body
+        name: body
+        widget: markdown
+        required: true
+
+  - name: config
+    label: Site Configuration
+    files:
+      - label: Site Config
+        name: site
+        file: src/config/site.config.ts
+        fields:
+          - label: Site Name
+            name: siteName
+            widget: string
+          - label: Logo
+            name: logo
+            widget: string
+          - label: Primary Color
+            name: primaryColor
+            widget: color
+          - label: Secondary Color
+            name: secondaryColor
+            widget: color
+          - label: Contact Email
+            name: contactEmail
+            widget: string
+          - label: Domain
+            name: domain
+            widget: string
+          - label: Show Blog
+            name: showBlog
+            widget: boolean
+          - label: Template
+            name: template
+            widget: select
+            options: ["base", "modern", "minimal", "gradient", "dark", "playful"]
+          - label: Hero Headline
+            name: hero.headline
+            widget: string
+          - label: Hero Subheadline
+            name: hero.subheadline
+            widget: string
+          - label: Hero CTA Text
+            name: hero.ctaText
+            widget: string
+          - label: Hero CTA Link
+            name: hero.ctaLink
+            widget: string
+          - label: About Title
+            name: about.title
+            widget: string
+          - label: About Description
+            name: about.description
+            widget: text
+          - label: Services
+            name: services
+            widget: list
+            fields:
+              - label: Title
+                name: title
+                widget: string
+              - label: Description
+                name: description
+                widget: string
+              - label: Icon
+                name: icon
+                widget: string
+

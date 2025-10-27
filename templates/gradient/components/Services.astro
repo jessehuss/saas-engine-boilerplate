@@ -1,0 +1,43 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Service {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  services: Service[];
+}
+
+const { services } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
+---
+
+<section id="services" class="py-32 relative bg-gradient-to-br from-gray-50 via-white to-gray-100">
+  <div class="container-custom">
+    <div class="text-center mb-20">
+      <h2 class="text-5xl md:text-6xl font-extrabold mb-6" style={`background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;`}>
+        Our Services
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Comprehensive solutions tailored to your needs
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map((service, index) => (
+        <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 slide-up border border-white/20" style={`animation-delay: ${index * 0.1}s;`}>
+          {service.icon && (
+            <div class="text-6xl mb-6 float">{service.icon}</div>
+          )}
+          <h3 class="text-2xl font-bold mb-4" style={`color: ${primaryColor};`}>{service.title}</h3>
+          <p class="text-gray-600 leading-relaxed">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,48 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Service {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  services: Service[];
+}
+
+const { services } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
+const accentColor = siteConfig.accentColor || siteConfig.secondaryColor;
+const colors = [primaryColor, secondaryColor, accentColor];
+---
+
+<section id="services" class="py-32">
+  <div class="container-custom">
+    <div class="text-center mb-20">
+      <h2 class="text-5xl md:text-6xl font-bold mb-6" style={`color: ${primaryColor};`}>
+        Our Services
+      </h2>
+      <p class="text-2xl text-gray-600 max-w-2xl mx-auto font-semibold">
+        Solutions that make you smile! 😊
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map((service, index) => {
+        const bgColor = colors[index % colors.length];
+        return (
+          <div class="bg-white rounded-3xl p-8 shadow-2xl hover:scale-110 hover:rotate-2 transition-all bounce-hover" style={`border-top: 8px solid ${bgColor};`}>
+            {service.icon && (
+              <div class="text-7xl mb-6 bounce">{service.icon}</div>
+            )}
+            <h3 class="text-3xl font-bold mb-4">{service.title}</h3>
+            <p class="text-gray-600 leading-relaxed font-medium">{service.description}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,44 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Service {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  services: Service[];
+}
+
+const { services } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+---
+
+<section id="services" class="py-32 relative bg-slate-900">
+  <div class="container-custom">
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">
+        <span style={`color: ${primaryColor};`}>Our Services</span>
+      </h2>
+      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+        Comprehensive solutions tailored to your needs
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map((service) => (
+        <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-primary/50 transition-all duration-300 group">
+          {service.icon && (
+            <div class="text-6xl mb-6">{service.icon}</div>
+          )}
+          <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-glow-sm" style={`color: ${primaryColor};`}>
+            {service.title}
+          </h3>
+          <p class="text-slate-400 leading-relaxed">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

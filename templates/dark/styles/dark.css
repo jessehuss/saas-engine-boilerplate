@@ -1,0 +1,79 @@
+/* Dark template styles */
+
+:root {
+  --primary-color: #00F5FF;
+  --secondary-color: #00FF94;
+  --accent-color: #FF006E;
+  --neutral-color: #64748B;
+}
+
+/* Neon glow effect */
+.glow {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+}
+
+.glow-box {
+  box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--primary-color);
+}
+
+.glow-box-subtle {
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+
+/* Pulse animation for glow */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px var(--primary-color);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 40px var(--primary-color);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Gradient border glow */
+.border-glow {
+  position: relative;
+  border-radius: 0.5rem;
+}
+
+.border-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.border-glow:hover::before {
+  opacity: 1;
+}
+
+/* Dark grid pattern */
+.dark-grid {
+  background-image: 
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Text glow */
+.text-glow {
+  text-shadow: 0 0 8px currentColor;
+}
+
+.text-glow-sm {
+  text-shadow: 0 0 4px currentColor;
+}
+

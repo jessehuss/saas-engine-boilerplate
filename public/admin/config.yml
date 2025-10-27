@@ -1,0 +1,53 @@
+# Decap CMS Configuration
+
+backend:
+  name: github
+  repo: your-username/your-repo
+  branch: main
+  auth_type: oauth
+  app_id: your-github-app-id
+  api_root: https://api.github.com
+  # Alternative: Git Gateway (Netlify Identity)
+  # name: git-gateway
+  # branch: main
+
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        required: true
+      - label: Date
+        name: date
+        widget: date
+        required: true
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Author
+        name: author
+        widget: string
+        default: "Admin"
+      - label: Featured Image
+        name: image
+        widget: image
+        required: false
+        media_folder: public/assets/uploads
+        public_folder: /assets/uploads
+      - label: Tags
+        name: tags
+        widget: list
+        default: []
+      - label: Body
+        name: body
+        widget: markdown
+        required: true

@@ -1,0 +1,68 @@
+---
+interface Props {
+  siteName: string;
+  contactEmail: string;
+  social?: {
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+    github?: string;
+  };
+  nav: Array<{ label: string; href: string }>;
+}
+
+const { siteName, contactEmail, social, nav } = Astro.props;
+---
+
+<footer class="border-t border-gray-200 py-16">
+  <div class="container-custom">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div>
+        <h3 class="text-lg font-semibold mb-4">{siteName}</h3>
+        <p class="text-gray-600 text-sm">
+          Beautiful landscapes that grow with you.
+        </p>
+      </div>
+      
+      <div>
+        <h4 class="text-sm font-semibold text-gray-900 mb-4">Links</h4>
+        <ul class="space-y-2">
+          {nav.map((item) => (
+            <li>
+              <a href={item.href} class="text-sm text-gray-600 hover:text-gray-900">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="text-sm font-semibold text-gray-900 mb-4">Contact</h4>
+        <a href={`mailto:${contactEmail}`} class="text-sm text-gray-600 hover:text-gray-900 block">
+          {contactEmail}
+        </a>
+        {social && (
+          <div class="flex space-x-4 mt-4">
+            {social.twitter && (
+              <a href={social.twitter} class="text-gray-400 hover:text-gray-600">
+                Twitter
+              </a>
+            )}
+            {social.facebook && (
+              <a href={social.facebook} class="text-gray-400 hover:text-gray-600">
+                Facebook
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+    
+    <div class="mt-12 pt-8 text-center text-sm text-gray-500">
+      <p>&copy; {new Date().getFullYear()} {siteName}</p>
+    </div>
+  </div>
+</footer>
+

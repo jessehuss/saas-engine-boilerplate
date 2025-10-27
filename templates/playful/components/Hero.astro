@@ -1,0 +1,49 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaLink: string;
+}
+
+const { headline, subheadline, ctaText, ctaLink } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
+const accentColor = siteConfig.accentColor || siteConfig.secondaryColor;
+---
+
+<section class="relative py-32 px-4 overflow-hidden">
+  <!-- Colorful background orbs -->
+  <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl" style={`background: radial-gradient(circle, ${primaryColor}, transparent);`}></div>
+  <div class="absolute top-0 right-0 w-96 h-96 rounded-full opacity-20 blur-3xl" style={`background: radial-gradient(circle, ${secondaryColor}, transparent);`}></div>
+  <div class="absolute bottom-0 left-1/2 w-96 h-96 rounded-full opacity-20 blur-3xl" style={`background: radial-gradient(circle, ${accentColor}, transparent);`}></div>
+  
+  <div class="container-custom relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+        <span class="inline-block px-8 py-6 rounded-3xl" style={`background-color: ${primaryColor}; color: white;`}>
+          {headline}
+        </span>
+      </h1>
+      <p class="text-2xl md:text-3xl text-gray-700 mb-12 max-w-2xl mx-auto font-semibold">
+        {subheadline}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href={ctaLink} class="text-xl px-12 py-6 rounded-full font-bold text-white shadow-primary hover:scale-110 hover:rotate-3 transition-all bounce-hover" style={`background-color: ${primaryColor};`}>
+          {ctaText}
+        </a>
+        <a href="#services" class="text-xl px-12 py-6 rounded-full font-bold text-gray-700 bg-white shadow-lg hover:scale-110 hover:-rotate-3 transition-all bounce-hover border-4 border-primary">
+          Learn More
+        </a>
+      </div>
+    </div>
+    
+    <!-- Floating emoji decorations -->
+    <div class="absolute top-32 left-10 text-6xl rotate-12 bounce">🌱</div>
+    <div class="absolute top-64 right-20 text-8xl -rotate-12 bounce" style="animation-delay: 1s;">🌿</div>
+    <div class="absolute bottom-20 left-1/4 text-5xl rotate-12 bounce" style="animation-delay: 2s;">🌳</div>
+  </div>
+</section>
+

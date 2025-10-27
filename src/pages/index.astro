@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import siteConfig from '../config/site.config';
+import { loadLayout, loadComponent } from '../lib/templateLoader';
+
+const BaseLayout = await loadLayout('BaseLayout');
+const Hero = await loadComponent('Hero');
+const Services = await loadComponent('Services');
+const About = await loadComponent('About');
+
+const posts = (await getCollection('blog')).slice(0, 3);
+const primaryColor = siteConfig.primaryColor;
+---
+
+<BaseLayout siteConfig={siteConfig} title={siteConfig.hero?.headline} description={siteConfig.tagline}>
+  <Hero 
+    headline={siteConfig.hero?.headline || 'Welcome'}
+    subheadline={siteConfig.hero?.subheadline || ''}
+    ctaText={siteConfig.hero?.ctaText || 'Get Started'}
+    ctaLink={siteConfig.hero?.ctaLink || '/contact'}
+  />
+  
+  <Services services={siteConfig.services || []} />
+  
+  <About 
+    title={siteConfig.about?.title || 'About Us'}
+    description={siteConfig.about?.description || ''}
+    image={siteConfig.about?.image}
+  />
+  
+  {siteConfig.showBlog && posts.length > 0 && (
+    <section class={`py-32 ${siteConfig.template === 'dark' ? 'bg-slate-950' : siteConfig.template === 'gradient' ? 'bg-gradient-to-br from-gray-50 to-gray-100' : siteConfig.template === 'playful' ? 'bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50' : 'bg-gray-50'}`}>
+      <div class="container-custom">
+        <div class="text-center mb-20">
+          <h2 class="text-5xl md:text-6xl font-bold mb-6" style={`color: ${primaryColor};`}>Latest Posts</h2>
+          <p class={`text-lg ${siteConfig.template === 'dark' ? 'text-slate-400' : 'text-gray-600'}`}>Stay up to date with our latest news and insights</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {posts.map((post, index) => {
+            const cardClasses = siteConfig.template === 'playful' 
+              ? 'bg-white rounded-3xl shadow-2xl hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-110 hover:rotate-2 group-hover:rotate-2' 
+              : siteConfig.template === 'dark'
+              ? 'bg-slate-800 border border-slate-700 rounded-2xl hover:border-primary/50 transition-all duration-300'
+              : siteConfig.template === 'gradient'
+              ? 'bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-105 border border-white/50'
+              : 'bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group-hover:scale-105';
+              
+            return (
+              <a href={`/blog/${post.slug}`} class="block group">
+                <article class={cardClasses}>
+                  <div class="p-6">
+                    <time class="text-sm" class:text-gray-500={siteConfig.template !== 'dark'} class:text-slate-500={siteConfig.template === 'dark'} datetime={post.data.date.toISOString()}>
+                      {post.data.date.toLocaleDateString()}
+                    </time>
+                    
+                    <h3 class="text-xl font-bold mt-2 mb-2 transition-colors" style={`color: ${primaryColor};`}>
+                      {post.data.title}
+                    </h3>
+                    
+                    {post.data.description && (
+                      <p class:line-clamp-2={true} text-sm class:text-gray-600={siteConfig.template !== 'dark'} class:text-slate-400={siteConfig.template === 'dark'}>
+                        {post.data.description}
+                      </p>
+                    )}
+                  </div>
+                </article>
+              </a>
+            );
+          })}
+        </div>
+        
+        <div class="text-center mt-12">
+          <a href="/blog" class="inline-flex items-center justify-center px-8 py-4 font-bold text-white shadow-lg hover:scale-110 transition-all" style={`
+            background-color: ${primaryColor};
+            ${siteConfig.template === 'playful' ? 'border-radius: 2rem;' : 'border-radius: 1rem;'}
+          `}>
+            View All Posts
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+

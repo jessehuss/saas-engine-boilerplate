@@ -1,0 +1,38 @@
+---
+interface Props {
+  nav: Array<{ label: string; href: string }>;
+  logo: string;
+  siteName: string;
+}
+
+const { nav, logo, siteName } = Astro.props;
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <nav class="container-custom">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="flex items-center space-x-3">
+        <img src={logo} alt={siteName} class="h-8 w-auto" />
+        <span class="text-xl font-bold text-gray-900">{siteName}</span>
+      </a>
+      
+      <div class="hidden md:flex items-center space-x-8">
+        {nav.map((item) => (
+          <a 
+            href={item.href} 
+            class="text-gray-700 hover:text-primary transition-colors duration-200"
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+      
+      <button class="md:hidden text-gray-700 hover:text-primary">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+

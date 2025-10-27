@@ -1,0 +1,65 @@
+---
+import type { SiteConfig } from '../../../src/config/site.config';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../../../src/components/SEO.astro';
+import '../../../src/styles/global.css';
+import '../styles/gradient.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  siteConfig: SiteConfig;
+}
+
+const { title, description, image, siteConfig } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <SEO 
+      title={title || siteConfig.siteName}
+      description={description || siteConfig.tagline || ''}
+      image={image}
+      siteConfig={siteConfig}
+    />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <style>
+      :root {
+        --primary-color: {siteConfig.primaryColor};
+        --secondary-color: {siteConfig.secondaryColor};
+        --accent-color: {siteConfig.accentColor || siteConfig.secondaryColor};
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Outfit', sans-serif;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <Header nav={siteConfig.nav} logo={siteConfig.logo} siteName={siteConfig.siteName} />
+    <slot />
+    <Footer 
+      siteName={siteConfig.siteName}
+      contactEmail={siteConfig.contactEmail}
+      social={siteConfig.social}
+      nav={siteConfig.nav}
+    />
+  </body>
+</html>
+

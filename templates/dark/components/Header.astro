@@ -1,0 +1,47 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Props {
+  nav: Array<{ label: string; href: string }>;
+  logo: string;
+  siteName: string;
+}
+
+const { nav, logo, siteName } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
+---
+
+<header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 shadow-lg shadow-slate-900/50">
+  <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <a href="/" class="flex items-center space-x-3 group">
+        <img src={logo} alt={siteName} class="h-10 w-auto transition-transform duration-300 group-hover:scale-105" />
+        <span class="text-2xl font-bold text-white">
+          {siteName}
+        </span>
+      </a>
+      
+      <div class="hidden md:flex items-center space-x-1">
+        {nav.map((item) => (
+          <a 
+            href={item.href} 
+            class="px-4 py-2 rounded-lg text-slate-400 hover:text-white font-medium transition-all duration-200 hover:bg-slate-800"
+          >
+            {item.label}
+          </a>
+        ))}
+        <a href="/contact" class="ml-4 px-6 py-3 rounded-lg font-semibold text-slate-950 hover:scale-105 transition-all glow-box-subtle" style={`background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor});`}>
+          Get In Touch
+        </a>
+      </div>
+      
+      <button class="md:hidden text-slate-400 hover:text-white p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+

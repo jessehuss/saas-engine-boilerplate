@@ -1,0 +1,39 @@
+---
+interface Service {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  services: Service[];
+}
+
+const { services } = Astro.props;
+---
+
+<section id="services" class="py-32 bg-white">
+  <div class="container-custom">
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
+        Our <span class="gradient-text">Services</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Comprehensive solutions tailored to your needs
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map((service, index) => (
+        <div class={`card ${index % 2 === 0 ? 'animate-fade-in' : 'animate-fade-in'}`} style={`animation-delay: ${index * 0.1}s`}>
+          {service.icon && (
+            <div class="text-5xl mb-6">{service.icon}</div>
+          )}
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
+          <p class="text-gray-600 leading-relaxed">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
