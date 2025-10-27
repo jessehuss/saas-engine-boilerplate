@@ -1,15 +1,26 @@
 # Decap CMS Configuration
 
+# RECOMMENDED: Use DecapBridge for easy client authentication (no GitHub needed!)
+# Sign up at https://decapbridge.com and get your bridge_url
 backend:
   name: github
   repo: your-username/your-repo
   branch: main
-  auth_type: oauth
-  app_id: your-github-app-id
-  api_root: https://api.github.com
-  # Alternative: Git Gateway (Netlify Identity)
-  # name: git-gateway
-  # branch: main
+  auth_endpoint: https://your-bridge-url.decapbridge.com/auth  # Your DecapBridge URL
+
+# Alternative 1: GitHub OAuth (requires GitHub account for clients)
+# backend:
+#   name: github
+#   repo: your-username/your-repo
+#   branch: main
+#   auth_type: oauth
+#   app_id: your-github-app-id
+#   api_root: https://api.github.com
+
+# Alternative 2: Netlify Identity (Netlify only)
+# backend:
+#   name: git-gateway
+#   branch: main
 
 media_folder: public/assets/uploads
 public_folder: /assets/uploads
