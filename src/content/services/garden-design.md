@@ -1,6 +1,6 @@
 ---
-title: Garden Design with a Twist
-description: THIS IS A TEST
+title: Garden Design
+description: Custom garden designs tailored to your space and preferences
 icon: 🌿
 ---
 
