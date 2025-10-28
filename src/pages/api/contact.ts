@@ -3,36 +3,7 @@ import { sendEmail } from '../../lib/sendEmail';
 
 export const prerender = false; // Enable SSR for this route
 
-// Validate environment variables at module load time
-const validateEnv = () => {
-  const { TO_EMAIL, FROM_EMAIL, RESEND_API_KEY } = process.env;
-  
-  if (!TO_EMAIL || !FROM_EMAIL || !RESEND_API_KEY) {
-    console.error('Missing required environment variables:');
-    if (!TO_EMAIL) console.error('  - TO_EMAIL');
-    if (!FROM_EMAIL) console.error('  - FROM_EMAIL');
-    if (!RESEND_API_KEY) console.error('  - RESEND_API_KEY');
-    console.error('\nPlease check your .env file and ensure all required variables are set.');
-    return false;
-  }
-  
-  // Basic email format validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(TO_EMAIL) || !emailRegex.test(FROM_EMAIL)) {
-    console.error('Invalid email format in environment variables');
-    return false;
-  }
-  
-  return true;
-};
-
-// Validate on module load
-const envValid = validateEnv();
-if (!envValid) {
-  console.error('Contact form will not work until environment variables are properly configured.');
-}
-
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const data = await request.json();
     const { name, email, subject, message } = data;
@@ -54,8 +25,15 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    // Get environment variables from Cloudflare runtime or fallback to env
+    const runtimeEnv = (locals as any).runtime?.env;
+    const TO_EMAIL = runtimeEnv?.TO_EMAIL || import.meta.env.TO_EMAIL;
+    const FROM_EMAIL = runtimeEnv?.FROM_EMAIL || import.meta.env.FROM_EMAIL;
+    const RESEND_API_KEY = runtimeEnv?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
+
     // Check environment configuration
-    if (!envValid) {
+    if (!TO_EMAIL || !FROM_EMAIL || !RESEND_API_KEY) {
+      console.error('Missing environment variables:', { TO_EMAIL: !!TO_EMAIL, FROM_EMAIL: !!FROM_EMAIL, RESEND_API_KEY: !!RESEND_API_KEY });
       return new Response(JSON.stringify({ 
         error: 'Contact form is not configured. Please check server environment variables.' 
       }), {
@@ -64,17 +42,9 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const { TO_EMAIL, FROM_EMAIL, RESEND_API_KEY } = process.env;
-
-    if (!TO_EMAIL || !FROM_EMAIL || !RESEND_API_KEY) {
-      return new Response(JSON.stringify({ error: 'Server configuration error' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
     // Send email
     await sendEmail({
+      apiKey: RESEND_API_KEY,
       from: FROM_EMAIL,
       to: TO_EMAIL,
       subject: subject || `Contact Form: ${name}`,
@@ -108,4 +78,3 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 };
-

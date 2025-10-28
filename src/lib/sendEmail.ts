@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 
 interface EmailOptions {
+  apiKey: string;
   from: string;
   to: string;
   subject: string;
@@ -9,25 +10,14 @@ interface EmailOptions {
 }
 
 export async function sendEmail(options: EmailOptions): Promise<void> {
-  const { RESEND_API_KEY, FROM_EMAIL } = process.env;
-
-  if (!FROM_EMAIL) {
-    throw new Error('FROM_EMAIL is not configured');
-  }
-
-  if (!RESEND_API_KEY) {
-    throw new Error('RESEND_API_KEY is not configured');
-  }
-
-  // Use Resend API directly
-  const resend = new Resend(RESEND_API_KEY);
+  // Initialize Resend with API key from options
+  const resend = new Resend(options.apiKey);
 
   await resend.emails.send({
-    from: options.from || FROM_EMAIL,
+    from: options.from,
     to: options.to,
     subject: options.subject,
     html: options.html,
     text: options.text || options.html.replace(/<[^>]*>/g, ''),
   });
 }
-
