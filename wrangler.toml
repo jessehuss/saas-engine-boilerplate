@@ -1,6 +1,6 @@
 # Cloudflare Pages configuration
 # This file provides default settings for Cloudflare Pages
-# Note: GitHub Actions deployment uses these settings
+# Note: Build commands are configured in Cloudflare Dashboard, not here
 
 name = "agency-saas-boilerplate"
 compatibility_date = "2024-01-15"
@@ -8,12 +8,13 @@ compatibility_date = "2024-01-15"
 # Pages configuration
 pages_build_output_dir = "dist"
 
-# Build configuration
-[build]
-command = "npm run build"
-
-# Environment variables (add in Cloudflare Dashboard)
+# Environment variables (add in Cloudflare Dashboard or here)
 # Production variables are set in Cloudflare Pages settings
 [env.production]
 # Add production environment variables in Cloudflare Dashboard
+
+# Optional: Add environment variables for all environments
+[vars]
+TO_EMAIL = "jesselhuss@gmail.com"
+FROM_EMAIL = "admin@jessehuss.com"
 
