@@ -1,0 +1,44 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaLink: string;
+}
+
+const { headline, subheadline, ctaText, ctaLink } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
+const accentColor = siteConfig.accentColor || siteConfig.secondaryColor;
+---
+
+<section class="relative py-32 px-4 overflow-hidden bg-gradient-to-br from-purple-50 via-teal-50 to-orange-50">
+  <!-- Creative background shapes -->
+  <div class="absolute top-20 left-10 w-72 h-72 rounded-full opacity-20 blur-3xl" style={`background: radial-gradient(circle, ${primaryColor}, transparent);`}></div>
+  <div class="absolute top-40 right-10 w-96 h-96 rounded-full opacity-20 blur-3xl" style={`background: radial-gradient(circle, ${secondaryColor}, transparent);`}></div>
+  <div class="absolute -bottom-8 left-1/2 w-96 h-96 rounded-full opacity-20 blur-3xl" style={`background: radial-gradient(circle, ${accentColor}, transparent);`}></div>
+  
+  <div class="container-custom relative z-10">
+    <div class="max-w-5xl mx-auto text-center fade-in-up">
+      <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight" style={`font-family: 'Outfit', sans-serif; background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;`}>
+        {headline}
+      </h1>
+      
+      <p class="text-2xl md:text-3xl text-gray-700 mb-12 max-w-3xl mx-auto font-semibold">
+        {subheadline}
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href={ctaLink} class="text-xl px-10 py-5 rounded-full font-bold text-white shadow-portfolio-lg hover-scale transition-all" style={`background-color: ${primaryColor};`}>
+          {ctaText}
+        </a>
+        <a href="#services" class="text-xl px-10 py-5 rounded-full font-bold text-white shadow-portfolio-lg hover-scale transition-all" style={`background-color: ${accentColor};`}>
+          Explore Work
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

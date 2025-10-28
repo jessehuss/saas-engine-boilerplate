@@ -1,0 +1,59 @@
+/* Tech template styles */
+
+:root {
+  --primary-color: #0EA5E9;
+  --secondary-color: #06B6D4;
+  --accent-color: #A855F7;
+  --neutral-color: #64748B;
+}
+
+/* Tech animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 15px var(--primary-color);
+  }
+  50% {
+    box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+  }
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Tech borders */
+.tech-border {
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+}
+
+.tech-border:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+/* Grid pattern background */
+.grid-pattern {
+  background-image: linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Tech glow effect */
+.text-glow {
+  text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+}
+

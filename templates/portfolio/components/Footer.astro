@@ -1,0 +1,78 @@
+---
+interface Props {
+  siteName: string;
+  contactEmail: string;
+  social?: {
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+    github?: string;
+  };
+  nav: Array<{ label: string; href: string }>;
+}
+
+const { siteName, contactEmail, social, nav } = Astro.props;
+---
+
+<footer class="bg-gray-900 text-white">
+  <div class="container-custom py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-bold mb-4" style={`font-family: 'Outfit', sans-serif;`}>{siteName}</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Creative excellence in every project.
+        </p>
+        {social && (
+          <div class="flex space-x-4">
+            {social.twitter && (
+              <a href={social.twitter} class="text-gray-400 hover:text-white transition-colors">
+                Twitter
+              </a>
+            )}
+            {social.facebook && (
+              <a href={social.facebook} class="text-gray-400 hover:text-white transition-colors">
+                Facebook
+              </a>
+            )}
+            {social.instagram && (
+              <a href={social.instagram} class="text-gray-400 hover:text-white transition-colors">
+                Instagram
+              </a>
+            )}
+            {social.linkedin && (
+              <a href={social.linkedin} class="text-gray-400 hover:text-white transition-colors">
+                LinkedIn
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+      
+      <div>
+        <h4 class="font-semibold mb-4">Navigation</h4>
+        <ul class="space-y-2">
+          {nav.map((item) => (
+            <li>
+              <a href={item.href} class="text-gray-400 hover:text-white transition-colors text-sm">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-semibold mb-4">Get In Touch</h4>
+        <p class="text-gray-400 text-sm mb-2">
+          Email: <a href={`mailto:${contactEmail}`} class="hover:text-white transition-colors">{contactEmail}</a>
+        </p>
+      </div>
+    </div>
+    
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+      <p>&copy; {new Date().getFullYear()} {siteName}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+

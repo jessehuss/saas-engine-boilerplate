@@ -35,7 +35,7 @@ Edit `src/config/site.config.ts`:
 - Set brand colors (`primaryColor`, `secondaryColor`)
 - Add your navigation items
 - Configure hero section, services, and about content
-- Select template: `"base"`, `"modern"`, or `"minimal"`
+- Select template: `"base"`, `"modern"`, `"minimal"`, `"gradient"`, `"dark"`, `"playful"`, `"professional"`, `"portfolio"`, or `"tech"`
 
 ### 3. Replace Logo
 

@@ -10,6 +10,8 @@ pages_build_output_dir = "dist"
 
 # Environment variables for production
 # Note: vars are NOT inherited by environments, so we define them here for production
+# IMPORTANT: Add RESEND_API_KEY as a Secret in Cloudflare Pages Dashboard
+# These plaintext vars should be added in Cloudflare Dashboard → Pages → Your Project → Settings → Environment Variables
 [env.production.vars]
 TO_EMAIL = "jesselhuss@gmail.com"
 FROM_EMAIL = "admin@jessehuss.com"

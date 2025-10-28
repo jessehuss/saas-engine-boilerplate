@@ -1,0 +1,37 @@
+---
+interface Service {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  services: Service[];
+}
+
+const { services } = Astro.props;
+---
+
+<section id="services" class="py-20 bg-gray-50">
+  <div class="container-custom">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={`font-family: 'Playfair Display', serif;`}>Our Services</h2>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto" style={`font-family: 'Source Sans Pro', sans-serif;`}>
+        Comprehensive solutions tailored to your needs
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map((service) => (
+        <div class="bg-white p-6 rounded-lg shadow-professional hover-lift border-professional">
+          {service.icon && (
+            <div class="text-4xl mb-4">{service.icon}</div>
+          )}
+          <h3 class="text-xl font-semibold text-gray-900 mb-2" style={`font-family: 'Playfair Display', serif;`}>{service.title}</h3>
+          <p class="text-gray-600 text-sm" style={`font-family: 'Source Sans Pro', sans-serif;`}>{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

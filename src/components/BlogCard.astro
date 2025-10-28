@@ -16,16 +16,20 @@ const template = siteConfig.template;
 <article class={`overflow-hidden group transition-all duration-300 ${
   template === 'playful' 
     ? 'bg-white rounded-3xl shadow-2xl hover:shadow-2xl hover:scale-110 hover:rotate-2' 
-    : template === 'dark'
+    : template === 'dark' || template === 'tech'
     ? 'bg-slate-800 border border-slate-700 rounded-2xl hover:border-primary/50'
     : template === 'gradient'
     ? 'bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl hover:scale-105 border border-white/50'
+    : template === 'professional'
+    ? 'bg-white rounded-lg shadow-professional hover-lift border border-professional'
+    : template === 'portfolio'
+    ? 'bg-white rounded-2xl shadow-portfolio card-hover overflow-hidden'
     : 'bg-white rounded-2xl shadow-lg hover:shadow-2xl group-hover:scale-105'
 }`}>
   <a href={`/blog/${slug}`} class="block">
     {data.image && (
       <div class={`aspect-video overflow-hidden ${
-        template === 'dark' ? 'bg-slate-700' : 'bg-gray-100'
+        template === 'dark' || template === 'tech' ? 'bg-slate-700' : 'bg-gray-100'
       }`}>
         <img 
           src={data.image} 
@@ -38,7 +42,7 @@ const template = siteConfig.template;
     
     <div class="p-8">
       <time class={`text-sm ${
-        template === 'dark' ? 'text-slate-500' : 'text-gray-500'
+        template === 'dark' || template === 'tech' ? 'text-slate-500' : 'text-gray-500'
       }`} datetime={data.date.toISOString()}>
         {formatDate(data.date)}
       </time>
@@ -49,7 +53,7 @@ const template = siteConfig.template;
       
       {data.description && (
         <p class={`line-clamp-3 ${
-          template === 'dark' ? 'text-slate-400' : 'text-gray-600'
+          template === 'dark' || template === 'tech' ? 'text-slate-400' : 'text-gray-600'
         }`}>
           {data.description}
         </p>

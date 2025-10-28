@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<section class="py-20 bg-white">
+  <div class="container-custom">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="order-2 lg:order-1">
+        <div class="inline-block px-4 py-2 rounded-full text-sm font-semibold mb-6 bg-gradient-to-r from-purple-100 to-teal-100 text-purple-700">
+          Our Story
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900" style={`font-family: 'Outfit', sans-serif;`}>{title}</h2>
+        <p class="text-lg text-gray-600 leading-relaxed mb-4">
+          {description}
+        </p>
+      </div>
+      
+      {image && (
+        <div class="order-1 lg:order-2">
+          <img 
+            src={image} 
+            alt={title} 
+            class="w-full h-auto rounded-3xl shadow-portfolio-lg hover-scale transition-transform"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+

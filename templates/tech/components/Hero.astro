@@ -1,0 +1,45 @@
+---
+import siteConfig from '../../../src/config/site.config';
+
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaLink: string;
+}
+
+const { headline, subheadline, ctaText, ctaLink } = Astro.props;
+const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 dark-grid">
+  <!-- Subtle grid pattern -->
+  <div class="absolute inset-0 opacity-20"></div>
+  
+  <!-- Animated gradient orbs -->
+  <div class="absolute top-20 left-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-20 right-20 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+  
+  <div class="container-custom relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold mb-8 leading-tight text-white">
+        <span style={`color: ${primaryColor};`} class="text-glow">
+          {headline}
+        </span>
+      </h1>
+      <p class="text-xl md:text-2xl text-slate-400 mb-12 max-w-2xl mx-auto">
+        {subheadline}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href={ctaLink} class="text-lg px-10 py-5 rounded-lg font-bold text-slate-950 hover:scale-110 transition-all glow-box" style={`background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor});`}>
+          {ctaText}
+        </a>
+        <a href="#services" class="text-lg px-10 py-5 rounded-lg font-bold text-white border-2 border-slate-700 hover:border-primary hover:text-glow transition-all">
+          Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

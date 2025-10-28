@@ -8,7 +8,7 @@ export type SiteConfig = {
   contactEmail: string;
   domain: string;
   showBlog: boolean;
-  template: 'base' | 'modern' | 'minimal' | 'gradient' | 'dark' | 'playful';
+  template: 'base' | 'modern' | 'minimal' | 'gradient' | 'dark' | 'playful' | 'professional' | 'portfolio' | 'tech';
   nav: Array<{ label: string; href: string }>;
   social?: {
     twitter?: string;
@@ -45,7 +45,7 @@ const siteConfig: SiteConfig = {
   contactEmail: "info@acmelandscaping.ca",
   domain: "acmelandscaping.ca",
   showBlog: true,
-  template: "gradient",
+  template: "base",
   nav: [
     { label: "Home", href: "/" },
     { label: "Services", href: "/#services" },

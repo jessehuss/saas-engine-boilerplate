@@ -56,11 +56,22 @@ const primaryColor = siteConfig.primaryColor;
   />
   
   {siteConfig.showBlog && posts.length > 0 && (
-    <section class={`py-32 ${siteConfig.template === 'dark' ? 'bg-slate-950' : siteConfig.template === 'gradient' ? 'bg-gradient-to-br from-gray-50 to-gray-100' : siteConfig.template === 'playful' ? 'bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50' : 'bg-gray-50'}`}>
+    <section class={`py-32 ${
+      siteConfig.template === 'dark' ? 'bg-slate-950' 
+      : siteConfig.template === 'gradient' ? 'bg-gradient-to-br from-gray-50 to-gray-100' 
+      : siteConfig.template === 'playful' ? 'bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50'
+      : siteConfig.template === 'professional' ? 'bg-gray-50'
+      : siteConfig.template === 'portfolio' ? 'bg-gradient-to-br from-purple-50 via-teal-50 to-orange-50'
+      : siteConfig.template === 'tech' ? 'bg-slate-950 grid-pattern'
+      : 'bg-gray-50'
+    }`}>
       <div class="container-custom">
         <div class="text-center mb-20">
           <h2 class="text-5xl md:text-6xl font-bold mb-6" style={`color: ${primaryColor};`}>Latest Posts</h2>
-          <p class={`text-lg ${siteConfig.template === 'dark' ? 'text-slate-400' : 'text-gray-600'}`}>Stay up to date with our latest news and insights</p>
+          <p class={`text-lg ${
+            siteConfig.template === 'dark' || siteConfig.template === 'tech' ? 'text-slate-400' 
+            : 'text-gray-600'
+          }`}>Stay up to date with our latest news and insights</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -71,13 +82,19 @@ const primaryColor = siteConfig.primaryColor;
               ? 'bg-slate-800 border border-slate-700 rounded-2xl hover:border-primary/50 transition-all duration-300'
               : siteConfig.template === 'gradient'
               ? 'bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-105 border border-white/50'
+              : siteConfig.template === 'professional'
+              ? 'bg-white rounded-lg shadow-professional hover-lift border border-professional'
+              : siteConfig.template === 'portfolio'
+              ? 'bg-white rounded-2xl shadow-portfolio card-hover overflow-hidden'
+              : siteConfig.template === 'tech'
+              ? 'bg-slate-800 rounded-xl border-2 border-slate-700 hover:border-primary/50 transition-all duration-300'
               : 'bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group-hover:scale-105';
               
             return (
               <a href={`/blog/${post.slug}`} class="block group">
                 <article class={cardClasses}>
                   <div class="p-6">
-                    <time class="text-sm" class:text-gray-500={siteConfig.template !== 'dark'} class:text-slate-500={siteConfig.template === 'dark'} datetime={post.data.date.toISOString()}>
+                    <time class="text-sm" class:text-gray-500={siteConfig.template !== 'dark' && siteConfig.template !== 'tech'} class:text-slate-500={siteConfig.template === 'dark' || siteConfig.template === 'tech'} datetime={post.data.date.toISOString()}>
                       {post.data.date.toLocaleDateString()}
                     </time>
                     
@@ -86,7 +103,7 @@ const primaryColor = siteConfig.primaryColor;
                     </h3>
                     
                     {post.data.description && (
-                      <p class:line-clamp-2={true} text-sm class:text-gray-600={siteConfig.template !== 'dark'} class:text-slate-400={siteConfig.template === 'dark'}>
+                      <p class:line-clamp-2={true} text-sm class:text-gray-600={siteConfig.template !== 'dark' && siteConfig.template !== 'tech'} class:text-slate-400={siteConfig.template === 'dark' || siteConfig.template === 'tech'}>
                         {post.data.description}
                       </p>
                     )}

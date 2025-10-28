@@ -4,7 +4,7 @@ A production-ready boilerplate for small web agency SaaS projects built with Ast
 
 ## Features
 
-- **6 Unique Templates**: base, modern, minimal, gradient, dark, and playful templates
+- **9 Unique Templates**: base, modern, minimal, gradient, dark, playful, professional, portfolio, and tech templates
 - **Dynamic Theme System**: Configure colors, branding, and content via config files
 - **Content Management**: Decap CMS for easy content editing
 - **Blog System**: Markdown-based blog with content collections
@@ -44,9 +44,9 @@ nano .env
    - Update site name, logo, colors
    - Configure navigation
    - Add hero, services, and about content
-   - Select template (base, modern, minimal, gradient, dark, or playful)
+   - Select template (base, modern, minimal, gradient, dark, playful, professional, portfolio, or tech)
 
-2. **Configure SMTP** (`.env`):
+2. **Configure Email** (`.env`):
    ```env
    RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
    FROM_EMAIL=noreply@yourdomain.com
@@ -80,7 +80,7 @@ Visit `http://localhost:4321` to see your site.
    - Modify about section
 
 4. **Choose Template**
-   - Set `template: "modern"` (options: "base", "modern", "minimal", "gradient", "dark", "playful")
+   - Set `template: "modern"` (options: "base", "modern", "minimal", "gradient", "dark", "playful", "professional", "portfolio", "tech")
    - Each template has a distinct aesthetic
 
 ### Template Switching
@@ -88,7 +88,7 @@ Visit `http://localhost:4321` to see your site.
 Edit `template` in `src/config/site.config.ts`:
 
 ```typescript
-template: "modern" // Options: "base", "modern", "minimal", "gradient", "dark", "playful"
+template: "modern" // Options: "base", "modern", "minimal", "gradient", "dark", "playful", "professional", "portfolio", "tech"
 ```
 
 Then rebuild:
@@ -115,19 +115,22 @@ These are injected as CSS variables at build time.
 1. **Access the CMS**:
    Visit `/admin` on your live site
 
-2. **GitHub OAuth Setup**:
-   - Create a GitHub App at https://github.com/settings/apps/new
-   - Set callback URL to: `https://api.netlify.com/auth/done`
-   - Update `decap-config.yml` with your app ID
+2. **Recommended: Use DecapBridge** (Easiest for client access):
+   - Sign up at https://decapbridge.com
+   - Create a site and link your GitHub repository
+   - Update `public/admin/config.yml` with your DecapBridge credentials
+   - See [CMS_SETUP.md](./CMS_SETUP.md) for detailed setup instructions
 
-3. **Alternative: Git Gateway**:
-   - For simpler setup, use Netlify Identity
-   - Change backend in `decap-config.yml` to `git-gateway`
+3. **Alternative Authentication Options**:
+   See [CMS_SETUP.md](./CMS_SETUP.md) for GitHub OAuth and other authentication methods
 
 4. **Editing Content**:
    - Navigate to `/admin`
-   - Authenticate with GitHub
-   - Edit blog posts or site config
+   - Authenticate with your chosen method (DecapBridge, GitHub, etc.)
+   - Edit content via the collections:
+     - **Blog Posts**: Create, edit, or delete blog entries
+     - **Services**: Manage your service offerings
+     - **Site Settings**: Update hero, about, navigation, and social media sections
    - Changes are committed to GitHub
 
 ### Adding Blog Posts
@@ -164,15 +167,7 @@ These are injected as CSS variables at build time.
      RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
      ```
 
-2. **Alternative: Traditional SMTP**:
-   ```env
-   SMTP_HOST=smtp.example.com
-   SMTP_PORT=465
-   SMTP_USER=user@example.com
-   SMTP_PASS=password
-   ```
-
-3. **Configure Recipients**:
+2. **Configure Recipients**:
    ```env
    FROM_EMAIL=noreply@yourdomain.com
    TO_EMAIL=contact@yourdomain.com
@@ -276,7 +271,10 @@ astro-agency/
 │   ├── minimal/           # Minimal typography template
 │   ├── gradient/          # Gradient & glassmorphism template
 │   ├── dark/             # Dark mode with neon accents
-│   └── playful/           # Playful rounded template
+│   ├── playful/           # Playful rounded template
+│   ├── professional/      # Professional corporate template
+│   ├── portfolio/         # Creative portfolio template
+│   └── tech/             # Tech-forward modern template
 ├── src/
 │   ├── components/        # Shared components
 │   ├── config/           # Site & template config
@@ -284,9 +282,11 @@ astro-agency/
 │   ├── lib/              # Utilities
 │   └── pages/            # Routes
 ├── public/               # Static assets
-│   ├── admin/           # Decap CMS UI
+│   ├── admin/           # Decap CMS UI and config
 │   └── assets/          # Images, logos, uploads
-├── decap-config.yml      # CMS configuration
+├── wrangler.toml        # Cloudflare Pages configuration
+├── vercel.json          # Vercel deployment config (optional)
+├── netlify.toml         # Netlify deployment config (optional)
 └── package.json
 ```
 
@@ -327,6 +327,24 @@ astro-agency/
 - Colorful and energetic
 - Friendly and approachable
 
+### Professional Template
+- Clean, corporate aesthetic
+- Navy blue, slate, and gold palette
+- Professional typography (Playfair Display)
+- Suitable for business and consulting
+
+### Portfolio Template
+- Modern, creative showcase design
+- Purple, teal, and coral colors
+- Bold typography (Outfit)
+- Perfect for creative portfolios
+
+### Tech Template
+- Sleek, futuristic design
+- Electric blue, cyan, and purple accents
+- Monospace fonts (JetBrains Mono)
+- Tech-forward aesthetic
+
 ## Development
 
 ### Adding a New Template
@@ -356,17 +374,18 @@ Create new `.astro` files in `src/pages/`:
 
 ### Decap CMS Not Loading
 
-- Check `decap-config.yml` configuration
-- Verify GitHub OAuth setup
+- Check `public/admin/config.yml` configuration
+- Verify DecapBridge or authentication setup
 - Ensure repo is accessible
 - Check browser console for errors
+- See [CMS_SETUP.md](./CMS_SETUP.md) for troubleshooting
 
 ### Contact Form Not Sending
 
-- Verify SMTP credentials in `.env`
-- Check email service status
-- Review server logs
-- Test SMTP connection
+- Verify Resend API key in Cloudflare Pages environment variables
+- Check that TO_EMAIL, FROM_EMAIL, and RESEND_API_KEY are all set
+- Review Cloudflare Pages function logs for errors
+- Ensure your Resend domain is verified
 
 ### Build Errors
 

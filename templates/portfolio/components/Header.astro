@@ -9,14 +9,15 @@ interface Props {
 
 const { nav, logo, siteName } = Astro.props;
 const primaryColor = siteConfig.primaryColor;
+const secondaryColor = siteConfig.secondaryColor;
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
-  <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<header class="bg-white/90 backdrop-blur-md shadow-portfolio sticky top-0 z-50">
+  <nav class="container-custom">
     <div class="flex items-center justify-between h-20">
       <a href="/" class="flex items-center space-x-3 group">
-        <img src={logo} alt={siteName} class="h-10 w-auto transition-transform duration-300 group-hover:scale-105" />
-        <span class="text-2xl font-bold gradient-text">
+        <img src={logo} alt={siteName} class="h-10 w-auto transition-transform duration-300 group-hover:scale-110" />
+        <span class="text-2xl font-bold" style={`font-family: 'Outfit', sans-serif; background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor}); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;`}>
           {siteName}
         </span>
       </a>
@@ -25,17 +26,14 @@ const primaryColor = siteConfig.primaryColor;
         {nav.map((item) => (
           <a 
             href={item.href} 
-            class="px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 font-medium transition-all duration-200 hover:bg-white/10"
+            class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition-all duration-200"
           >
             {item.label}
           </a>
         ))}
-        <a href="/contact" class="ml-4 px-6 py-3 rounded-xl font-semibold text-white shadow-lg hover:scale-105 transition-all" style={`background-color: ${primaryColor};`}>
-          Get In Touch
-        </a>
       </div>
       
-      <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-gray-900 p-2" aria-label="Toggle mobile menu">
+      <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary p-2" aria-label="Toggle mobile menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -44,18 +42,15 @@ const primaryColor = siteConfig.primaryColor;
     
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden pb-4">
-      <div class="flex flex-col space-y-1">
+      <div class="flex flex-col space-y-2">
         {nav.map((item) => (
           <a 
             href={item.href} 
-            class="px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 font-medium hover:bg-white/10 transition-all duration-200"
+            class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition-all duration-200"
           >
             {item.label}
           </a>
         ))}
-        <a href="/contact" class="ml-2 mt-2 px-6 py-3 rounded-xl font-semibold text-white text-center shadow-lg" style={`background-color: ${primaryColor};`}>
-          Get In Touch
-        </a>
       </div>
     </div>
   </nav>

@@ -36,12 +36,38 @@ const secondaryColor = siteConfig.secondaryColor;
         </a>
       </div>
       
-      <button class="md:hidden text-slate-400 hover:text-white p-2">
+      <button id="mobile-menu-button" class="md:hidden text-slate-400 hover:text-white p-2" aria-label="Toggle mobile menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
     </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4">
+      <div class="flex flex-col space-y-1">
+        {nav.map((item) => (
+          <a 
+            href={item.href} 
+            class="px-4 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
+          >
+            {item.label}
+          </a>
+        ))}
+        <a href="/contact" class="ml-2 mt-2 px-6 py-3 rounded-lg font-semibold text-slate-950 text-center" style={`background: linear-gradient(135deg, ${primaryColor}, ${secondaryColor});`}>
+          Get In Touch
+        </a>
+      </div>
+    </div>
   </nav>
 </header>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script>
 
