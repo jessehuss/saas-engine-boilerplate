@@ -9,6 +9,17 @@ const Services = await loadComponent('Services');
 const About = await loadComponent('About');
 
 const posts = (await getCollection('blog')).slice(0, 3);
+const servicesContent = await getCollection('services');
+
+// If services are available from content collection, use them; otherwise fall back to site config
+const services = servicesContent.length > 0 
+  ? servicesContent.map(service => ({
+      title: service.data.title,
+      description: service.data.description,
+      icon: service.data.icon
+    }))
+  : siteConfig.services || [];
+
 const primaryColor = siteConfig.primaryColor;
 ---
 
@@ -20,7 +31,7 @@ const primaryColor = siteConfig.primaryColor;
     ctaLink={siteConfig.hero?.ctaLink || '/contact'}
   />
   
-  <Services services={siteConfig.services || []} />
+  <Services services={services} />
   
   <About 
     title={siteConfig.about?.title || 'About Us'}
