@@ -1,34 +1,32 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import heroRaw from '../content/settings/hero.yml';
+import aboutRaw from '../content/settings/about.yml';
+import navigationRaw from '../content/settings/navigation.yml';
+import socialRaw from '../content/settings/social.yml';
 import yaml from 'js-yaml';
 
-function loadYamlFile(filename: string): any {
+// Parse YAML content (already loaded as string by Vite plugin)
+function parseYaml(raw: string): any {
+  if (!raw) return null;
   try {
-    const filePath = path.join(process.cwd(), 'src', 'content', 'settings', filename);
-    if (!fs.existsSync(filePath)) {
-      return null;
-    }
-    const fileContents = fs.readFileSync(filePath, 'utf-8');
-    return yaml.load(fileContents);
+    return yaml.load(raw);
   } catch (error) {
-    console.error(`Error loading ${filename}:`, error);
+    console.error('Error parsing YAML:', error);
     return null;
   }
 }
 
 export function getHeroSettings() {
-  return loadYamlFile('hero.yml');
+  return parseYaml(heroRaw);
 }
 
 export function getAboutSettings() {
-  return loadYamlFile('about.yml');
+  return parseYaml(aboutRaw);
 }
 
 export function getNavigationSettings() {
-  return loadYamlFile('navigation.yml');
+  return parseYaml(navigationRaw);
 }
 
 export function getSocialSettings() {
-  return loadYamlFile('social.yml');
+  return parseYaml(socialRaw);
 }
-

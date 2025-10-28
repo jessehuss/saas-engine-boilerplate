@@ -29,6 +29,18 @@ export default defineConfig({
         '@/content': resolve(__dirname, './src/content'),
       },
     },
+    plugins: [
+      {
+        name: 'yaml-raw-loader',
+        load(id) {
+          if (id.endsWith('.yml') || id.endsWith('.yaml')) {
+            const fs = require('fs');
+            const raw = fs.readFileSync(id, 'utf-8');
+            return `export default ${JSON.stringify(raw)}`;
+          }
+        },
+      },
+    ],
   },
 });
 
