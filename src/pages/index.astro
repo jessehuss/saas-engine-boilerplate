@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import siteConfig from '../config/site.config';
 import { loadLayout, loadComponent } from '../lib/templateLoader';
+import { getHeroSettings, getAboutSettings, getNavigationSettings, getSocialSettings } from '../lib/settingsLoader';
 
 const BaseLayout = await loadLayout('BaseLayout');
 const Hero = await loadComponent('Hero');
@@ -10,6 +11,21 @@ const About = await loadComponent('About');
 
 const posts = (await getCollection('blog')).slice(0, 3);
 const servicesContent = await getCollection('services');
+
+// Load settings from YAML files or fall back to site config
+const heroSettings = getHeroSettings();
+const aboutSettings = getAboutSettings();
+const navigationSettings = getNavigationSettings();
+const socialSettings = getSocialSettings();
+
+// Merge settings with site config (YAML takes precedence)
+const mergedConfig = {
+  ...siteConfig,
+  hero: heroSettings || siteConfig.hero,
+  about: aboutSettings || siteConfig.about,
+  nav: navigationSettings?.items || siteConfig.nav,
+  social: socialSettings || siteConfig.social,
+};
 
 // If services are available from content collection, use them; otherwise fall back to site config
 const services = servicesContent.length > 0 
@@ -23,20 +39,20 @@ const services = servicesContent.length > 0
 const primaryColor = siteConfig.primaryColor;
 ---
 
-<BaseLayout siteConfig={siteConfig} title={siteConfig.hero?.headline} description={siteConfig.tagline}>
+<BaseLayout siteConfig={mergedConfig} title={mergedConfig.hero?.headline} description={siteConfig.tagline}>
   <Hero 
-    headline={siteConfig.hero?.headline || 'Welcome'}
-    subheadline={siteConfig.hero?.subheadline || ''}
-    ctaText={siteConfig.hero?.ctaText || 'Get Started'}
-    ctaLink={siteConfig.hero?.ctaLink || '/contact'}
+    headline={mergedConfig.hero?.headline || 'Welcome'}
+    subheadline={mergedConfig.hero?.subheadline || ''}
+    ctaText={mergedConfig.hero?.ctaText || 'Get Started'}
+    ctaLink={mergedConfig.hero?.ctaLink || '/contact'}
   />
   
   <Services services={services} />
   
   <About 
-    title={siteConfig.about?.title || 'About Us'}
-    description={siteConfig.about?.description || ''}
-    image={siteConfig.about?.image}
+    title={mergedConfig.about?.title || 'About Us'}
+    description={mergedConfig.about?.description || ''}
+    image={mergedConfig.about?.image}
   />
   
   {siteConfig.showBlog && posts.length > 0 && (
