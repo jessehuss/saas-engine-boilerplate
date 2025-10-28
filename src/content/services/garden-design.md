@@ -1,7 +1,7 @@
 ---
-title: "Garden Design"
-description: "Custom garden designs tailored to your space and preferences"
-icon: "🌿"
+title: Garden Design with a Twist
+description: THIS IS A TEST
+icon: 🌿
 ---
 
 Garden Design
