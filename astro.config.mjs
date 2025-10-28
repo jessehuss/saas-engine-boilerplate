@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import cloudflare from '@astrojs/cloudflare';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -34,8 +35,7 @@ export default defineConfig({
         name: 'yaml-raw-loader',
         load(id) {
           if (id.endsWith('.yml') || id.endsWith('.yaml')) {
-            const fs = require('fs');
-            const raw = fs.readFileSync(id, 'utf-8');
+            const raw = readFileSync(id, 'utf-8');
             return `export default ${JSON.stringify(raw)}`;
           }
         },
