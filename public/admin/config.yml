@@ -2,7 +2,7 @@
 backend:
   name: git-gateway
   repo: jessehuss/saas-engine-boilerplate
-  branch: main
+  branch: master
   auth_type: pkce
   base_url: https://auth.decapbridge.com
   auth_endpoint: /sites/b527b697-7160-4d4b-a533-fd8c85940240/pkce
