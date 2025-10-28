@@ -1,64 +1,32 @@
-# Decap CMS Configuration
-
-# RECOMMENDED: Use DecapBridge for easy client authentication (no GitHub needed!)
-# Sign up at https://decapbridge.com and get your bridge_url
+# Use DecapBridge PKCE auth (required)
 backend:
-  name: github
-  repo: your-username/your-repo
-  branch: main
-  auth_endpoint: https://your-bridge-url.decapbridge.com/auth  # Your DecapBridge URL
+  name: git-gateway
+  repo: jessehuss/saas-engine-boilerplate
+  branch: master
+  auth_type: pkce
+  base_url: https://auth.decapbridge.com
+  auth_endpoint: /sites/b527b697-7160-4d4b-a533-fd8c85940240/pkce
+  auth_token_endpoint: /sites/b527b697-7160-4d4b-a533-fd8c85940240/token
+  gateway_url: https://gateway.decapbridge.com
 
-# Alternative 1: GitHub OAuth (requires GitHub account for clients)
-# backend:
-#   name: github
-#   repo: your-username/your-repo
-#   branch: main
-#   auth_type: oauth
-#   app_id: your-github-app-id
-#   api_root: https://api.github.com
+  # See who did what (optional)
+  commit_messages:
+    create: Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    update: Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    delete: Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    uploadMedia: Upload “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    deleteMedia: Delete “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
 
-# Alternative 2: Netlify Identity (Netlify only)
-# backend:
-#   name: git-gateway
-#   branch: main
+# Enable PKCE fields (optional, recommended)
+auth:
+  email_claim: email
+  first_name_claim: first_name
+  last_name_claim: last_name
+  avatar_url_claim: avatar_url
 
-media_folder: public/assets/uploads
-public_folder: /assets/uploads
+# Better Decap + Bridge logo (optional)
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 
-collections:
-  - name: blog
-    label: Blog Posts
-    folder: src/content/blog
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - label: Title
-        name: title
-        widget: string
-        required: true
-      - label: Date
-        name: date
-        widget: date
-        required: true
-      - label: Description
-        name: description
-        widget: text
-        required: false
-      - label: Author
-        name: author
-        widget: string
-        default: "Admin"
-      - label: Featured Image
-        name: image
-        widget: image
-        required: false
-        media_folder: public/assets/uploads
-        public_folder: /assets/uploads
-      - label: Tags
-        name: tags
-        widget: list
-        default: []
-      - label: Body
-        name: body
-        widget: markdown
-        required: true
+# Add site links in Decap CMS (optional)
+site_url: https://jessehuss.com
