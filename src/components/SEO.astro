@@ -6,36 +6,158 @@ interface Props {
   description: string;
   image?: string;
   siteConfig: SiteConfig;
+  type?: 'website' | 'article' | 'profile';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  keywords?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
 }
 
-const { title, description, image, siteConfig } = Astro.props;
+const { 
+  title, 
+  description, 
+  image, 
+  siteConfig,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author,
+  tags = [],
+  keywords,
+  noindex = false,
+  nofollow = false
+} = Astro.props;
 const fullTitle = title === siteConfig.siteName ? title : `${title} | ${siteConfig.siteName}`;
-const ogImage = image || `${siteConfig.domain}/og-image.jpg`;
-const url = `${siteConfig.domain}${Astro.url.pathname}`;
+
+// Ensure domain has protocol
+const baseUrl = siteConfig.domain.startsWith('http') 
+  ? siteConfig.domain 
+  : `https://${siteConfig.domain}`;
+
+const ogImage = image 
+  ? (image.startsWith('http') ? image : `${baseUrl}${image.startsWith('/') ? image : '/' + image}`)
+  : `${baseUrl}/og-image.jpg`;
+const url = `${baseUrl}${Astro.url.pathname}`;
+const robotsContent = [
+  noindex ? 'noindex' : 'index',
+  nofollow ? 'nofollow' : 'follow',
+].join(', ');
+
+// Build keywords from tags and provided keywords
+const allKeywords = keywords 
+  ? [keywords, ...tags].filter(Boolean).join(', ')
+  : tags.length > 0 
+    ? tags.join(', ')
+    : undefined;
 ---
 
 <!-- Primary Meta Tags -->
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{allKeywords && <meta name="keywords" content={allKeywords} />}
+<meta name="author" content={author || siteConfig.siteName} />
+<meta name="robots" content={robotsContent} />
+<meta name="theme-color" content={siteConfig.primaryColor} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
 <meta property="og:url" content={url} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
 <meta property="og:site_name" content={siteConfig.siteName} />
+<meta property="og:locale" content="en_US" />
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+{author && <meta property="article:author" content={author} />}
+{tags.length > 0 && tags.map(tag => <meta property="article:tag" content={tag} />)}
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={url} />
-<meta property="twitter:title" content={fullTitle} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={ogImage} />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={url} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={title} />
+{siteConfig.social?.twitter && (
+  <meta name="twitter:site" content={siteConfig.social.twitter.replace('https://twitter.com/', '@')} />
+)}
 
-<!-- Additional -->
-<meta name="author" content={siteConfig.siteName} />
+<!-- Additional SEO -->
 <link rel="canonical" href={url} />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+<!-- Structured Data (JSON-LD) -->
+{type === 'article' && publishedTime && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "image": ogImage,
+    "datePublished": publishedTime,
+    "dateModified": modifiedTime || publishedTime,
+    "author": {
+      "@type": "Person",
+      "name": author || siteConfig.siteName
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": siteConfig.siteName,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}${siteConfig.logo}`
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": url
+    },
+    ...(tags.length > 0 && { "keywords": tags.join(", ") })
+  })} />
+)}
+
+<!-- WebSite Schema (added to all pages) -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteConfig.siteName,
+  "url": baseUrl,
+  "description": siteConfig.tagline || description,
+  "publisher": {
+    "@type": "Organization",
+    "name": siteConfig.siteName,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${baseUrl}${siteConfig.logo}`
+    }
+  }
+})} />
+
+<!-- Organization Schema (added to all pages) -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": siteConfig.siteName,
+  "url": baseUrl,
+  "logo": `${baseUrl}${siteConfig.logo}`,
+  "description": siteConfig.tagline || description,
+  ...(siteConfig.contactEmail && {
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": siteConfig.contactEmail,
+      "contactType": "customer service"
+    }
+  }),
+  ...(siteConfig.social && {
+    "sameAs": Object.values(siteConfig.social).filter(Boolean)
+  })
+})} />
 

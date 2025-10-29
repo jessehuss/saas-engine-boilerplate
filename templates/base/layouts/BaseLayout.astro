@@ -11,9 +11,17 @@ interface Props {
   description?: string;
   image?: string;
   siteConfig: SiteConfig;
+  type?: 'website' | 'article' | 'profile';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  keywords?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
 }
 
-const { title, description, image, siteConfig } = Astro.props;
+const { title, description, image, siteConfig, type, publishedTime, modifiedTime, author, tags, keywords, noindex, nofollow } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -29,6 +37,14 @@ const { title, description, image, siteConfig } = Astro.props;
       description={description || siteConfig.tagline || ''}
       image={image}
       siteConfig={siteConfig}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      tags={tags}
+      keywords={keywords}
+      noindex={noindex}
+      nofollow={nofollow}
     />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
